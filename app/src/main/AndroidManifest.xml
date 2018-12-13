@@ -3,7 +3,9 @@
     package="com.adammcneilly.magicmirror">
 
     <application android:label="@string/app_name">
-        <uses-library android:name="com.google.android.things" />
+        <uses-library
+            android:name="com.google.android.things"
+            android:required="false" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
