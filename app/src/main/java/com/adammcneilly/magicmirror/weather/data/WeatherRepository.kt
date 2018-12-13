@@ -1,5 +1,6 @@
-package com.adammcneilly.magicmirror.weather
+package com.adammcneilly.magicmirror.weather.data
 
+import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import io.reactivex.Single
 
 class WeatherRepository(private val api: DarkSkyAPI) {

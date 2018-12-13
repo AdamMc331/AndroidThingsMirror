@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -23,6 +25,9 @@ android {
     }
     lintOptions {
         disable 'AllowBackup', 'GoogleAppIndexingWarning', 'MissingApplicationIcon'
+    }
+    dataBinding {
+        enabled = true
     }
 }
 

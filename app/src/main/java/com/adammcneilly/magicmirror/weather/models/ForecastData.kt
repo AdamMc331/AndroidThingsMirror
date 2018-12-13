@@ -1,4 +1,4 @@
-package com.adammcneilly.magicmirror.weather
+package com.adammcneilly.magicmirror.weather.models
 
 data class ForecastData(
         val time: Long? = null,

@@ -1,4 +1,4 @@
-package com.adammcneilly.magicmirror.weather
+package com.adammcneilly.magicmirror.weather.models
 
 data class Forecast(
         val summary: String? = null,

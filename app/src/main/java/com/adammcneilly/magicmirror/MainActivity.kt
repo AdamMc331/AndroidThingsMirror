@@ -2,6 +2,8 @@ package com.adammcneilly.magicmirror
 
 import android.app.Activity
 import android.os.Bundle
+import com.adammcneilly.magicmirror.weather.models.ForecastData
+import com.adammcneilly.magicmirror.weather.views.ForecastCellView
 
 /**
  * Skeleton of an Android Things activity.
@@ -28,5 +30,8 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val forecastCell = findViewById<ForecastCellView>(R.id.forecast_cell)
+        forecastCell.bindModel(ForecastData(temperatureHigh = 30F, icon = "clear-day"))
     }
 }

@@ -1,4 +1,4 @@
-package com.adammcneilly.magicmirror.weather
+package com.adammcneilly.magicmirror.weather.models
 
 import com.adammcneilly.magicmirror.R
 
@@ -17,7 +17,7 @@ enum class Icon(val serverString: String, val iconRes: Int) {
 
     companion object {
         fun findFromString(serverString: String): Icon {
-            return values().firstOrNull { it.serverString == serverString } ?: Icon.DEFAULT
+            return values().firstOrNull { it.serverString == serverString } ?: DEFAULT
         }
     }
 }
