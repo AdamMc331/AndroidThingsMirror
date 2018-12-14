@@ -28,7 +28,7 @@ data class ForecastData(
         val cloudCover: Float? = null,
         val uvIndex: Int? = null,
         val uvIndexTime: Long? = null,
-        val visibility: Int? = null,
+        val visibility: Float? = null,
         val ozone: Float? = null,
         val temperatureMin: Float? = null,
         val temperatureMinTime: Long? = null,
