@@ -15,10 +15,13 @@ class ForecastGroup @JvmOverloads constructor(
         return LinearLayout.HORIZONTAL
     }
 
+    /**
+     * TODO: Make the num of forecast items a property that can be configured.
+     */
     fun bindData(data: List<ForecastData>?) {
         removeAllViews()
 
-        data?.forEach {
+        data?.take(5)?.forEach {
             val newView = ForecastCellView(context)
             newView.layoutParams = SINGLE_WEIGHT_PARAMS
             newView.bindModel(it)
