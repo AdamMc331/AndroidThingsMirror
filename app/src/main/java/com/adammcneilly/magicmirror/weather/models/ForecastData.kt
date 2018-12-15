@@ -12,6 +12,7 @@ data class ForecastData(
         val precipIntensityMaxTime: Long? = null,
         val precipProbability: Float? = null,
         val precipType: String? = null,
+        val temperature: Float? = null,
         val temperatureHigh: Float? = null,
         val temperatureLow: Float? = null,
         val apparentTemperatureHigh: Float? = null,

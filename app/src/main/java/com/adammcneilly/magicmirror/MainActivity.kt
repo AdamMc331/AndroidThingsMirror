@@ -60,7 +60,7 @@ class MainActivity : FragmentActivity() {
 
     private fun listenForData() {
         viewModel.forecastResponse.observe(this, Observer {
-            forecast_cell.bindData(it.daily?.data)
+            forecast_cell.bindModel(it)
         })
     }
 }

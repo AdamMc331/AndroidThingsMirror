@@ -13,50 +13,55 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:background="#000">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/forecast_temperature"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:text="@{viewModel.temperature}"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/forecast_icon"
+            app:layout_constraintEnd_toEndOf="@id/center_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/forecast_icon"
+            tools:text="32°F" />
 
         <ImageView
             android:id="@+id/forecast_icon"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/forecasticon"
+            android:padding="16dp"
             app:imageRes="@{viewModel.iconRes}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/center_guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_partly_cloudy_white_24dp" />
 
         <TextView
-            android:id="@+id/forecast_temperature"
+            android:id="@+id/forecast_summary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:padding="8dp"
-            android:text="@{viewModel.temperature}"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@{viewModel.summary}"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/forecast_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forecast_icon"
-            tools:text="32°F" />
-
-        <TextView
-            android:id="@+id/forecast_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@{viewModel.date}"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/forecast_temperature"
-            app:visibilityCondition="@{viewModel.showDate}"
-            tools:text="Tomorrow" />
+            tools:text="Light rain later tonight." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
