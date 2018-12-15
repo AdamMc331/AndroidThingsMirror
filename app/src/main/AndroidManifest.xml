@@ -3,6 +3,7 @@
     package="com.adammcneilly.magicmirror">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
         android:name=".App"

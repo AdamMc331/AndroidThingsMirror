@@ -6,9 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.adammcneilly.magicmirror.sports.data.SportRadarAPI
+import com.adammcneilly.magicmirror.sports.data.SportsRepository
 import com.adammcneilly.magicmirror.weather.data.DarkSkyAPI
 import com.adammcneilly.magicmirror.weather.data.WeatherRepository
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 /**
  * Skeleton of an Android Things activity.
@@ -34,11 +37,14 @@ class MainActivity : FragmentActivity() {
 
     private val viewModelFactory = object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            val api = DarkSkyAPI.getDefaultAPI()
-            val repository = WeatherRepository(api)
+            val weatherAPI = DarkSkyAPI.getDefaultAPI()
+            val weatherRepository = WeatherRepository(weatherAPI)
+
+            val sportsAPI = SportRadarAPI.getDefaultAPI()
+            val sportsRepository = SportsRepository(sportsAPI)
 
             @Suppress("UNCHECKED_CAST")
-            return MainActivityViewModel(repository) as T
+            return MainActivityViewModel(weatherRepository, sportsRepository) as T
         }
     }
 
@@ -50,17 +56,22 @@ class MainActivity : FragmentActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
-        requestData()
         listenForData()
+        requestData()
     }
 
     private fun requestData() {
         viewModel.getForecast()
+        viewModel.getNhlSchedule()
     }
 
     private fun listenForData() {
         viewModel.forecastResponse.observe(this, Observer {
             forecast_cell.bindModel(it)
+        })
+
+        viewModel.nhlSchedule.observe(this, Observer {
+            Timber.d("${it.games?.size} Games Today")
         })
     }
 }
