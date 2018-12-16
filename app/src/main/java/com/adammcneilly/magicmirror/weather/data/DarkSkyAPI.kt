@@ -26,7 +26,7 @@ interface DarkSkyAPI {
                     .baseUrl(BASE_URL)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()).build())
+                    .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build())
                     .build()
                     .create(DarkSkyAPI::class.java)
         }
