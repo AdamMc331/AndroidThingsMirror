@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.*
+import java.time.Instant
 
 class MainActivityViewModel(private val weatherRepository: WeatherRepository, private val sportsRepository: SportsRepository) : ViewModel() {
     private val _forecastResponse = MutableLiveData<ForecastResponse>()
@@ -32,7 +32,7 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
     }
 
     fun getNhlSchedule() {
-        val today = Date()
+        val today = Instant.now()
 
         val disposable = sportsRepository.getNHLSchedule(today)
                 .subscribeOn(Schedulers.io())

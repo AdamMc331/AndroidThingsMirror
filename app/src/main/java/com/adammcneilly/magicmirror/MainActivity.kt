@@ -6,12 +6,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.adammcneilly.magicmirror.sports.data.SportRadarAPI
 import com.adammcneilly.magicmirror.sports.data.SportsRepository
+import com.adammcneilly.magicmirror.sports.views.NHLGameAdapter
 import com.adammcneilly.magicmirror.weather.data.DarkSkyAPI
 import com.adammcneilly.magicmirror.weather.data.WeatherRepository
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
 /**
  * Skeleton of an Android Things activity.
@@ -34,6 +35,7 @@ import timber.log.Timber
  *
  */
 class MainActivity : FragmentActivity() {
+    private val nhlGameAdapter = NHLGameAdapter()
 
     private val viewModelFactory = object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -56,6 +58,8 @@ class MainActivity : FragmentActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
+        setupNHLRecyclerView()
+
         listenForData()
         requestData()
     }
@@ -71,7 +75,12 @@ class MainActivity : FragmentActivity() {
         })
 
         viewModel.nhlSchedule.observe(this, Observer {
-            Timber.d("${it.games?.size} Games Today")
+            nhlGameAdapter.games = it?.games
         })
+    }
+
+    private fun setupNHLRecyclerView() {
+        nhl_recycler_view.layoutManager = LinearLayoutManager(this)
+        nhl_recycler_view.adapter = nhlGameAdapter
     }
 }
