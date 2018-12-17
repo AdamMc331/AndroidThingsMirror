@@ -15,7 +15,7 @@ class NHLGameViewModel : BaseObservable() {
             notifyChange()
         }
 
-    val gameDescription: String
+    val gameTitle: String
         get() = "${game?.home?.alias} vs ${game?.away?.alias}"
 
     private val startTime: String
@@ -29,13 +29,15 @@ class NHLGameViewModel : BaseObservable() {
             val homePoints = game?.home_points
             val awayPoints = game?.away_points
 
-            return if (homePoints == null || awayPoints == null) {
-                null
-            } else {
-                "$homePoints - $awayPoints"
+            val scoreString = "$homePoints - $awayPoints"
+
+            return when {
+                homePoints == null || awayPoints == null -> null
+                game?.status == "closed" || game?.status == "complete" -> "$scoreString F"
+                else -> scoreString
             }
         }
 
-    val gameTime: String
+    val gameSubtitle: String
         get() = gameScore ?: startTime
 }
