@@ -9,9 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adammcneilly.magicmirror.sports.data.SportRadarAPI
 import com.adammcneilly.magicmirror.sports.data.SportsRepository
-import com.adammcneilly.magicmirror.sports.data.SportsState
-import com.adammcneilly.magicmirror.sports.views.NHLGameAdapter
-import com.adammcneilly.magicmirror.sports.views.SportsController
 import com.adammcneilly.magicmirror.weather.data.DarkSkyAPI
 import com.adammcneilly.magicmirror.weather.data.WeatherRepository
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +34,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  *
  */
 class MainActivity : FragmentActivity() {
-    private val sportsController = SportsController()
+    private val mirrorController = MirrorController()
 
     private val viewModelFactory = object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -72,18 +69,14 @@ class MainActivity : FragmentActivity() {
     }
 
     private fun listenForData() {
-        viewModel.forecastResponse.observe(this, Observer {
-            forecast_cell.bindModel(it)
-        })
+        viewModel.state.observe(this, Observer {
+            mirrorController.setData(it)
 
-        viewModel.nhlSchedule.observe(this, Observer {
-            val sportsState = SportsState(nhlSchedule = it)
-            sportsController.setData(sportsState)
         })
     }
 
     private fun setupNHLRecyclerView() {
-        nhl_recycler_view.layoutManager = LinearLayoutManager(this)
-        nhl_recycler_view.setController(sportsController)
+        mirror_recycler_view.layoutManager = LinearLayoutManager(this)
+        mirror_recycler_view.setController(mirrorController)
     }
 }

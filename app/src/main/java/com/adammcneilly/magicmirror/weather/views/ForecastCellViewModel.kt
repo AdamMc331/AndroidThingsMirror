@@ -16,7 +16,10 @@ class ForecastCellViewModel : BaseObservable() {
         @Bindable get() = Icon.findFromString(forecastResponse?.currently?.icon.orEmpty()).iconRes
 
     val temperature: String
-        @Bindable get() = "${forecastResponse?.currently?.temperature?.toInt()}°F"
+        @Bindable get() {
+            val temp = forecastResponse?.currently?.temperature?.toInt() ?: -1
+            return "$temp°F"
+        }
 
     val summary: String
         @Bindable get() = forecastResponse?.hourly?.summary.orEmpty()

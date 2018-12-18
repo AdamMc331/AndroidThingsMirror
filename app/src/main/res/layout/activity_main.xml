@@ -15,21 +15,13 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.35" />
 
-    <com.adammcneilly.magicmirror.weather.views.ForecastCellView
-        android:id="@+id/forecast_cell"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/mirror_recycler_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/quarter_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.airbnb.epoxy.EpoxyRecyclerView
-        android:id="@+id/nhl_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@id/quarter_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forecast_cell" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

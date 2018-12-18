@@ -8,7 +8,10 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.adammcneilly.magicmirror.databinding.ForecastCellBinding
 import com.adammcneilly.magicmirror.weather.models.ForecastResponse
+import com.airbnb.epoxy.ModelProp
+import com.airbnb.epoxy.ModelView
 
+@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class ForecastCellView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -21,9 +24,11 @@ class ForecastCellView @JvmOverloads constructor(
         binding.viewModel = viewModel
     }
 
-    fun bindModel(forecastResponse: ForecastResponse) {
-        viewModel.forecastResponse = forecastResponse
-    }
+    var model: ForecastResponse? = null
+        @ModelProp set(value) {
+            field = value
+            viewModel.forecastResponse = value
+        }
 }
 
 @BindingAdapter("imageRes")

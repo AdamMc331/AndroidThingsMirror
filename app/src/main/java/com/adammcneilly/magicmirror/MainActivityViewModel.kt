@@ -22,11 +22,17 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
 
     private val compositeDisposable = CompositeDisposable()
 
+    private val _state = MutableLiveData<MirrorState>()
+    val state: LiveData<MirrorState> = _state
+
+    private val currentState: MirrorState
+        get() = _state.value ?: MirrorState()
+
     fun getForecast() {
         val disposable = weatherRepository.getForecast()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(_forecastResponse::setValue, Timber::e)
+                .subscribe(this::processForecast, Timber::e)
 
         compositeDisposable.add(disposable)
     }
@@ -37,9 +43,17 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
         val disposable = sportsRepository.getNHLSchedule(today)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(_nhlSchedule::setValue, Timber::e)
+                .subscribe(this::processNHLSchedule, Timber::e)
 
         compositeDisposable.add(disposable)
+    }
+
+    private fun processForecast(forecastResponse: ForecastResponse) {
+        _state.value = currentState.copy(forecastResponse = forecastResponse)
+    }
+
+    private fun processNHLSchedule(nhlSchedule: NHLSchedule) {
+        _state.value = currentState.copy(nhlSchedule = nhlSchedule)
     }
 
     override fun onCleared() {
