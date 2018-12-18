@@ -57,15 +57,13 @@ class MainActivity : FragmentActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
-        setupNHLRecyclerView()
-
+        setupRecyclerView()
         listenForData()
         requestData()
     }
 
     private fun requestData() {
-        viewModel.getForecast()
-        viewModel.getNhlSchedule()
+        viewModel.loadData()
     }
 
     private fun listenForData() {
@@ -75,7 +73,7 @@ class MainActivity : FragmentActivity() {
         })
     }
 
-    private fun setupNHLRecyclerView() {
+    private fun setupRecyclerView() {
         mirror_recycler_view.layoutManager = LinearLayoutManager(this)
         mirror_recycler_view.setController(mirrorController)
     }

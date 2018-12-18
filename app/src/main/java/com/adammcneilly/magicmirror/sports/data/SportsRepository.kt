@@ -8,7 +8,7 @@ import java.time.ZoneId
 
 class SportsRepository(private val api: SportRadarAPI) {
 
-    fun getNHLSchedule(date: Instant): Single<NHLSchedule> {
+    fun getNHLSchedule(date: Instant = Instant.now()): Single<NHLSchedule> {
         val localDateTime = LocalDateTime.ofInstant(date, ZoneId.systemDefault())
 
         return api.getNhlScheduleForDate(
