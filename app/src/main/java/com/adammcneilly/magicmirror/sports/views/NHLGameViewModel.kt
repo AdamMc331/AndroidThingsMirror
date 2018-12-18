@@ -33,7 +33,6 @@ class NHLGameViewModel : BaseObservable() {
 
             return when {
                 homePoints == null || awayPoints == null -> null
-                game?.status == "closed" || game?.status == "complete" -> "$scoreString F"
                 else -> scoreString
             }
         }
