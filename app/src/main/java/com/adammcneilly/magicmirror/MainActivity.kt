@@ -63,13 +63,12 @@ class MainActivity : FragmentActivity() {
     }
 
     private fun requestData() {
-        viewModel.loadData()
+        viewModel.beginRequestingData()
     }
 
     private fun listenForData() {
         viewModel.state.observe(this, Observer {
             mirrorController.setData(it)
-
         })
     }
 
