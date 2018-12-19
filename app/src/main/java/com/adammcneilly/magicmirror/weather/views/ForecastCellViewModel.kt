@@ -18,7 +18,7 @@ class ForecastCellViewModel : BaseObservable() {
     val temperature: String
         @Bindable get() {
             val temp = forecastResponse?.currently?.temperature?.toInt() ?: -1
-            return "$temp°F"
+            return "$temp°"
         }
 
     val summary: String
