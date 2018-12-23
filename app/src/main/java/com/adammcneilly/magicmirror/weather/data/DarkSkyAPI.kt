@@ -10,6 +10,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * Retrofit interface that communicates with the Dark Sky API.
+ */
 interface DarkSkyAPI {
     @GET("forecast/{key}/{latitude},{longitude}")
     fun getForecast(

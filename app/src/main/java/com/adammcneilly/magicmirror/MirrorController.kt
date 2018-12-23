@@ -7,6 +7,9 @@ import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import com.adammcneilly.magicmirror.weather.views.ForecastCellViewModel_
 import com.airbnb.epoxy.TypedEpoxyController
 
+/**
+ * Epoxy Controller which defines the order in which items from our [MirrorState] appear.
+ */
 class MirrorController : TypedEpoxyController<MirrorState>() {
     override fun buildModels(data: MirrorState?) {
         processForecast(data?.forecastResponse)

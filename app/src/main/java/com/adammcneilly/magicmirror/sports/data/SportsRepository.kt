@@ -1,20 +1,24 @@
 package com.adammcneilly.magicmirror.sports.data
 
+import com.adammcneilly.magicmirror.now
 import com.adammcneilly.magicmirror.sports.models.NHLSchedule
 import io.reactivex.Single
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 
+/**
+ * Repository class which handles some networking logic for the Sport Radar API.
+ */
 class SportsRepository(private val api: SportRadarAPI) {
 
-    fun getNHLSchedule(date: Instant = Instant.now()): Single<NHLSchedule> {
-        val localDateTime = LocalDateTime.ofInstant(date, ZoneId.of("EST"))
+    /**
+     * Retrieves the NHL Schedule for any given day. Defaults to the current time if one is not supplied.
+     */
+    fun getNHLSchedule(date: LocalDateTime = now().toLocalDateTime()): Single<NHLSchedule> {
 
         return api.getNhlScheduleForDate(
-                localDateTime.year.toString(),
-                localDateTime.monthValue.toString(),
-                localDateTime.dayOfMonth.toString()
+                date.year.toString(),
+                date.monthValue.toString(),
+                date.dayOfMonth.toString()
         )
     }
 }

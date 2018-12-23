@@ -1,27 +1,25 @@
 package com.adammcneilly.magicmirror
 
-import java.util.*
-
-fun Date.asCalendar(): Calendar {
-    val calendar = Calendar.getInstance()
-    calendar.time = this
-    return calendar
-}
-
-fun Date.year(): Int {
-    return this.asCalendar().get(Calendar.YEAR)
-}
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 /**
- * Month is 0 indexed
+ * The timezone of whoever is running this smart mirror app. This was added so that anyone who
+ * clones this project could easily modify it.
  */
-fun Date.month(): Int {
-    return this.asCalendar().get(Calendar.MONTH)
-}
+const val timeZone = "EST"
 
 /**
- * Day is 1 indexed
+ * Get the current ZonedDateTime for the given [timeZone].
  */
-fun Date.day(): Int {
-    return this.asCalendar().get(Calendar.DAY_OF_MONTH)
-}
+fun now(): ZonedDateTime = ZonedDateTime.now().withZoneSameInstant(ZoneId.of(timeZone))
+
+/**
+ * Given a string and a formatter, convert it to a ZonedDateTime for our given [timeZone].
+ */
+fun String.asZonedDateTime(formatter: DateTimeFormatter): ZonedDateTime = LocalDateTime.parse(this, formatter)
+        .atOffset(ZoneOffset.UTC)
+        .atZoneSameInstant(ZoneId.of(timeZone))

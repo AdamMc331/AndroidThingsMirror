@@ -10,6 +10,9 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
+/**
+ * A custom view responsible for showing the current date and time.
+ */
 class CurrentDateTimeView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -35,6 +38,9 @@ class CurrentDateTimeView @JvmOverloads constructor(
         compositeDisposable.clear()
     }
 
+    /**
+     * Every second we update the [viewModel], which will display the new time.
+     */
     private fun listenForTimeUpdates() {
         val disposable = Observable.interval(1, TimeUnit.SECONDS)
                 .startWith(0)

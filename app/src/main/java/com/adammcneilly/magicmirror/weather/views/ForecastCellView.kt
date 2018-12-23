@@ -11,6 +11,9 @@ import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 
+/**
+ * Custom view that displays the current forecast.
+ */
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class ForecastCellView @JvmOverloads constructor(
         context: Context,

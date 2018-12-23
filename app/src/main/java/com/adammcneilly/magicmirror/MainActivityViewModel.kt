@@ -15,12 +15,19 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
+/**
+ * The ViewModel class responsible for any network requests to pull the data we want to show on the mirror.
+ */
 class MainActivityViewModel(private val weatherRepository: WeatherRepository, private val sportsRepository: SportsRepository) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     private val _state = MutableLiveData<MirrorState>()
     val state: LiveData<MirrorState> = _state
 
+    /**
+     * Since we want to load and display all data at once, we can zip the network requests together, and use
+     * their responses to build a single state.
+     */
     private fun loadData() {
         val forecastRequest = weatherRepository.getForecast()
         val nhlScheduleRequest = sportsRepository.getNHLSchedule()
@@ -36,6 +43,9 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
         compositeDisposable.add(disposable)
     }
 
+    /**
+     * Requests data every hour.
+     */
     fun beginRequestingData() {
         val disposable = Observable.interval(60, TimeUnit.MINUTES)
                 .startWith(0)

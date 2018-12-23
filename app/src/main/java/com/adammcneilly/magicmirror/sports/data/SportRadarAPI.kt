@@ -11,6 +11,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * Retrofit interface that makes requests to the Sport Radar API.
+ */
 interface SportRadarAPI {
 
     @GET("nhl/trial/v6/en/games/{year}/{month}/{day}/schedule.json")

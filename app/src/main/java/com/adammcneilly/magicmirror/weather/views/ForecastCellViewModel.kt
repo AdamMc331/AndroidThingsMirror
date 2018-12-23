@@ -5,6 +5,9 @@ import androidx.databinding.Bindable
 import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import com.adammcneilly.magicmirror.weather.models.Icon
 
+/**
+ * ViewModel for determining how the current forcast should be displayed.
+ */
 class ForecastCellViewModel : BaseObservable() {
     var forecastResponse: ForecastResponse? = null
         set(value) {

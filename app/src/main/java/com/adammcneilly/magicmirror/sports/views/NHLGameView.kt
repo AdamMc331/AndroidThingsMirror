@@ -9,6 +9,9 @@ import com.adammcneilly.magicmirror.sports.models.NHLGame
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 
+/**
+ * Custom view that is used to display an NHL game.
+ */
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class NHLGameView @JvmOverloads constructor(
         context: Context,

@@ -8,6 +8,11 @@ import com.adammcneilly.magicmirror.databinding.LeagueHeaderViewBinding
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 
+/**
+ * Custom view that is intended to display a header for a sports league (NHL, NBA, MLB).
+ *
+ * Really, this is just a fancy container for a text view.
+ */
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LeagueHeaderView @JvmOverloads constructor(
         context: Context,

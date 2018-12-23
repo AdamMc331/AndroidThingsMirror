@@ -1,12 +1,16 @@
 package com.adammcneilly.magicmirror.sports.views
 
 import androidx.databinding.BaseObservable
+import com.adammcneilly.magicmirror.asZonedDateTime
 import com.adammcneilly.magicmirror.sports.models.NHLGame
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
+/**
+ * ViewModel responsible for formatting how an NHL game is played.
+ */
 class NHLGameViewModel : BaseObservable() {
 
     var game: NHLGame? = null
@@ -15,15 +19,24 @@ class NHLGameViewModel : BaseObservable() {
             notifyChange()
         }
 
+    /**
+     * The game title displays which two teams are playing.
+     */
     val gameTitle: String
         get() = "${game?.home?.alias} vs ${game?.away?.alias}"
 
+    /**
+     * A formatted version of the game's scheduled start time.
+     */
     private val startTime: String
-        get() = LocalDateTime.parse(game?.scheduled, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                .atOffset(ZoneOffset.UTC)
-                .atZoneSameInstant(ZoneId.of("EST"))
-                .format(DateTimeFormatter.ofPattern("hh:mm a"))
+        get() = game?.scheduled
+                ?.asZonedDateTime(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                ?.format(DateTimeFormatter.ofPattern("hh:mm a"))
+                .orEmpty()
 
+    /**
+     * The score of the game, if available.
+     */
     private val gameScore: String?
         get() {
             val homePoints = game?.home_points
@@ -37,6 +50,9 @@ class NHLGameViewModel : BaseObservable() {
             }
         }
 
+    /**
+     * If a game score is available, we show that. Otherwise, default to the start time.
+     */
     val gameSubtitle: String
         get() = gameScore ?: startTime
 }
