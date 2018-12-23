@@ -21,7 +21,7 @@ class NHLGameViewModel : BaseObservable() {
     private val startTime: String
         get() = LocalDateTime.parse(game?.scheduled, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                 .atOffset(ZoneOffset.UTC)
-                .atZoneSameInstant(ZoneId.systemDefault())
+                .atZoneSameInstant(ZoneId.of("EST"))
                 .format(DateTimeFormatter.ofPattern("hh:mm a"))
 
     private val gameScore: String?
