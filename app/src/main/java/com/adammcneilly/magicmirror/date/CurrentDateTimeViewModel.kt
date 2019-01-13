@@ -2,7 +2,7 @@ package com.adammcneilly.magicmirror.date
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.adammcneilly.magicmirror.now
+import com.adammcneilly.magicmirror.currentZonedDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
  */
 class CurrentDateTimeViewModel : BaseObservable() {
     private val currentDateTime: ZonedDateTime
-        get() = now()
+        get() = currentZonedDateTime()
 
     val dateString: String
         @Bindable get() = currentDateTime.format(DateTimeFormatter.ofPattern("EEEE, MMMM d"))

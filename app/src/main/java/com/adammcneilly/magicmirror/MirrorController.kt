@@ -6,6 +6,8 @@ import com.adammcneilly.magicmirror.sports.views.NHLGameViewModel_
 import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import com.adammcneilly.magicmirror.weather.views.ForecastCellViewModel_
 import com.airbnb.epoxy.TypedEpoxyController
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * Epoxy Controller which defines the order in which items from our [MirrorState] appear.
@@ -13,7 +15,7 @@ import com.airbnb.epoxy.TypedEpoxyController
 class MirrorController : TypedEpoxyController<MirrorState>() {
     override fun buildModels(data: MirrorState?) {
         processForecast(data?.forecastResponse)
-        processNHLSchedule(data?.nhlSchedule)
+        data?.nhlSchedules?.let(this::processNHLSchedules)
     }
 
     private fun processForecast(forecastResponse: ForecastResponse?) {
@@ -25,8 +27,8 @@ class MirrorController : TypedEpoxyController<MirrorState>() {
         }
     }
 
-    private fun processNHLSchedule(nhlSchedule: NHLSchedule?) {
-        val hasGames = nhlSchedule?.games?.isNotEmpty() == true
+    private fun processNHLSchedules(schedules: List<NHLSchedule>) {
+        val hasGames = schedules.all { it.games?.isNotEmpty() == true }
 
         if (hasGames) {
             LeagueHeaderViewModel_()
@@ -34,11 +36,18 @@ class MirrorController : TypedEpoxyController<MirrorState>() {
                     .text("NHL")
                     .addTo(this)
 
-            nhlSchedule?.games?.forEach { game ->
-                NHLGameViewModel_()
-                        .id("NHL Game: ${game.id}")
-                        .model(game)
+            schedules.forEach {
+                LeagueHeaderViewModel_()
+                        .id(it.date)
+                        .text(it.date)
                         .addTo(this)
+
+                it.games?.forEach { game ->
+                    NHLGameViewModel_()
+                            .id("NHL Game: ${game.id}")
+                            .model(game)
+                            .addTo(this)
+                }
             }
         }
     }

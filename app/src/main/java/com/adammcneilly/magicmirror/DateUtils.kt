@@ -1,9 +1,6 @@
 package com.adammcneilly.magicmirror
 
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 /**
@@ -15,7 +12,7 @@ const val timeZone = "EST"
 /**
  * Get the current ZonedDateTime for the given [timeZone].
  */
-fun now(): ZonedDateTime = ZonedDateTime.now().withZoneSameInstant(ZoneId.of(timeZone))
+fun currentZonedDateTime(): ZonedDateTime = ZonedDateTime.now().withZoneSameInstant(ZoneId.of(timeZone))
 
 /**
  * Given a string and a formatter, convert it to a ZonedDateTime for our given [timeZone].

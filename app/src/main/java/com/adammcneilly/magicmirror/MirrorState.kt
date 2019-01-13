@@ -8,5 +8,5 @@ import com.adammcneilly.magicmirror.weather.models.ForecastResponse
  */
 data class MirrorState(
         val forecastResponse: ForecastResponse? = null,
-        val nhlSchedule: NHLSchedule? = null
+        val nhlSchedules: List<NHLSchedule>? = null
 )

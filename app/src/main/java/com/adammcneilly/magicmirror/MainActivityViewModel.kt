@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.adammcneilly.magicmirror.sports.data.SportsRepository
-import com.adammcneilly.magicmirror.sports.models.NHLSchedule
 import com.adammcneilly.magicmirror.weather.data.WeatherRepository
-import com.adammcneilly.magicmirror.weather.models.ForecastResponse
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -24,21 +21,56 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
     private val _state = MutableLiveData<MirrorState>()
     val state: LiveData<MirrorState> = _state
 
+    private val currentState: MirrorState
+        get() = _state.value ?: MirrorState()
+
     /**
      * Since we want to load and display all data at once, we can zip the network requests together, and use
      * their responses to build a single state.
      */
     private fun loadData() {
-        val forecastRequest = weatherRepository.getForecast()
-        val nhlScheduleRequest = sportsRepository.getNHLSchedule()
+        loadWeather()
+    }
 
-        val disposable = Single.zip(forecastRequest, nhlScheduleRequest, io.reactivex.functions.BiFunction<ForecastResponse, NHLSchedule, MirrorState> { forecastResponse, nhlSchedule ->
-            Timber.d("Building state")
-            return@BiFunction MirrorState(forecastResponse = forecastResponse, nhlSchedule = nhlSchedule)
-        })
+    private fun loadWeather() {
+        val disposable = weatherRepository.getForecast()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(_state::setValue, Timber::e)
+                .map {
+                    return@map currentState.copy(forecastResponse = it)
+                }
+                .doAfterSuccess { loadYesterdaysHockeySchedule() }
+                .subscribe(this::handleState, Timber::e)
+
+        compositeDisposable.add(disposable)
+    }
+
+    private fun loadYesterdaysHockeySchedule() {
+        val yesterday = currentZonedDateTime().minusDays(1).toLocalDateTime()
+
+        val disposable = sportsRepository.getNHLSchedule(yesterday)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    val currentSchedules = currentState.nhlSchedules.orEmpty()
+                    return@map currentState.copy(nhlSchedules = currentSchedules + it)
+                }
+                .doAfterSuccess { loadTodaysHockeySchedule() }
+                .subscribe(this::handleState, Timber::e)
+
+        compositeDisposable.add(disposable)
+    }
+
+    private fun loadTodaysHockeySchedule() {
+        val disposable = sportsRepository.getNHLSchedule()
+                .delay(10, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    val currentSchedules = currentState.nhlSchedules.orEmpty()
+                    return@map currentState.copy(nhlSchedules = currentSchedules + it)
+                }
+                .subscribe(this::handleState, Timber::e)
 
         compositeDisposable.add(disposable)
     }
@@ -54,6 +86,10 @@ class MainActivityViewModel(private val weatherRepository: WeatherRepository, pr
                 .subscribe({ this.loadData() }, Timber::e)
 
         compositeDisposable.add(disposable)
+    }
+
+    private fun handleState(newState: MirrorState) {
+        this._state.value = newState
     }
 
     override fun onCleared() {

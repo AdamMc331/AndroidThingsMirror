@@ -1,6 +1,6 @@
 package com.adammcneilly.magicmirror.sports.data
 
-import com.adammcneilly.magicmirror.now
+import com.adammcneilly.magicmirror.currentZonedDateTime
 import com.adammcneilly.magicmirror.sports.models.NHLSchedule
 import io.reactivex.Single
 import java.time.LocalDateTime
@@ -13,7 +13,7 @@ class SportsRepository(private val api: SportRadarAPI) {
     /**
      * Retrieves the NHL Schedule for any given day. Defaults to the current time if one is not supplied.
      */
-    fun getNHLSchedule(date: LocalDateTime = now().toLocalDateTime()): Single<NHLSchedule> {
+    fun getNHLSchedule(date: LocalDateTime = currentZonedDateTime().toLocalDateTime()): Single<NHLSchedule> {
 
         return api.getNhlScheduleForDate(
                 date.year.toString(),
